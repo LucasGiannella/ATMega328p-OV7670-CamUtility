@@ -1580,7 +1580,7 @@ uint8_t twi_read_register(uint8_t slave_register, uint8_t read_addr, uint8_t wri
   /* Phase 3 - Send STOP condition to alert all slaves that the TWI interface is free */
   TWCR = (1 << TWINT ) | (1 << TWEN  ) | (1 << TWSTO );       /* Enter Transmit mode & Transmit Stop Condition    */
 
-  _delay_ms(1); // how to determine a minimal delay?                                                          /*-*/
+  _delay_ms(1);                                                                                                       //Comment: how to determine a minimal delay?                                                          /*-*/
 
   /* Phase 0 - Get Control of the TWI Interface as Master */
   TWCR = (1 << TWINT ) | (1 << TWEN  ) | (1 << TWSTA );       /* Enter Transmit mode & Transmit Start Condition   */
