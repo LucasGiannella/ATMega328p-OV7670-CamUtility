@@ -1680,6 +1680,7 @@ void OV7670_set_register(uint8_t reg, uint8_t val)
     _delay_ms(1000);
   }
 }
+
 void OV7670_set_register(uint8_t reg, uint8_t val, uint8_t loc)
 {
   while(twi_write_register(reg, val, loc, OV7670_WRITE, OV7670_READ))
@@ -1893,15 +1894,44 @@ void USART_Transmit_Register(uint8_t reg, uint8_t val)
 /* Initialize Arduino UNO */
 void ATMega328p_init(void)
 {
-  cli();//disable interrupts
+  // Disable interrupts
+  cli();
 
-  /* Setup the 8mhz PWM clock
-    This will be on pin 11*/
-  DDRB |= (1 << 3);//pin 11
-  ASSR &= ~(_BV(EXCLK) | _BV(AS2));
-  TCCR2A = (1 << COM2A0) | (1 << WGM21) | (1 << WGM20);
-  TCCR2B = (1 << WGM22) | (1 << CS20);
-  OCR2A = 0;//(F_CPU)/(2*(X+1))
+  /************************SET XCLK*********************************/
+  /*
+  Internal OV7670 clock [XCLK] is defined by arduino pins. Therefore is must be set (OV7670 Datasheet p.4).
+  Seek p. 2 from OV7670 Datasheet for more information about how to XCLK is linked to the rest of the circuit
+  */
+  /* Set pin PB3 as output. This pin in Arduino UNO pltform is
+     correspondent to pin 11
+  */
+  DDRB |= (1 << 3);                                                                              //Comment: use defined methods for pins
+
+  /* Set ATMega328p pin PB3 as clock output source for OV7670 camera, and set
+     it to Fast PWM mode. (ATMega328p p. 122)
+  */
+  // Enable External Clock Input [TOSC1], wich is direclty attached to 16MHz crystal
+  ASSR    &= ~((1 << EXCLK) | (1 << AS2));
+
+  // Set No Prescaling
+  TCCR2B  |= (1 << CS20) | (0 << CS21) | (0 << CS22);
+
+  // Fast PWM Mode Set
+  TCCR2A  |= (1 << WGM20) | (1 << WGM21);
+  TCCR2B  |= (1 << WGM22);
+
+  // Set Compare Output Mode: Toggle OC2A on compare match
+  TCCR2A  |= (1 << COM2A0)  | (0 << COM2A1);
+
+  // Set OCR2A value:
+  // Note: Setting OCR2A to 0 is not desirable.
+  // Fclk = Fcpu/(N*256)
+  OCR2A    = 1;
+  /************************SET XCLK*********************************/
+
+
+  /*
+  */
   DDRC &= ~15;//low d0-d3 camera
   DDRD &= ~252;//d7-d4 and interrupt pins
 
