@@ -1898,6 +1898,10 @@ void ATMega328p_init(void)
   cli();
 
   /************************SET XCLK*********************************/
+  // Clear all usd registers
+  ASSR   = 0x00;
+  TCCR2A = 0x00;
+  TCCR2B = 0x00;
   /*
   Internal OV7670 clock [XCLK] is defined by arduino pins. Therefore is must be set (OV7670 Datasheet p.4).
   Seek p. 2 from OV7670 Datasheet for more information about how to XCLK is linked to the rest of the circuit
