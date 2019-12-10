@@ -1894,10 +1894,14 @@ void USART_Transmit_Register(uint8_t reg, uint8_t val)
 /* Initialize Arduino UNO */
 void ATMega328p_init(void)
 {
-  // Disable interrupts
+  // Disable Interrup Service Routines
   cli();
 
   /************************SET XCLK*********************************/
+  /*
+    As per ATMega328p Datasheet p. 122, if WGM2:0 = 7, TOP values used in compare match for Fast PWM Mode
+    is equal to OCR2A. This will enable PWM with clocks of up to 8MHz, used by the camera.
+  */
   // Clear all usd registers
   ASSR   = 0x00;
   TCCR2A = 0x00;
@@ -1928,20 +1932,50 @@ void ATMega328p_init(void)
   TCCR2A  |= (1 << COM2A0)  | (0 << COM2A1);
 
   // Set OCR2A value:
-  // Note: Setting OCR2A to 0 is not desirable.
-  // Fclk = Fcpu/(N*256)
-  OCR2A    = 1;
+  OCR2A    = 0;
   /************************SET XCLK*********************************/
 
 
+  /************************SET GPIO*********************************/
   /*
+  Arduino UNO Pinout  -  Function             - OV7670
+
+  A0 [PC0]            - Data PIN              - D0
+  A1 [PC1]            - Data PIN              - D1
+  A2 [PC2]            - Data PIN              - D2
+  A3 [PC3]            - Data PIN              - D3
+
+  D2 [PD2]            - Pixel clock           - PCLK
+  D3 [PD3]            - Vertical Sync         - VSYNC
+
+  D4 [PD4]            - Data PIN              - D4
+  D5 [PD5]            - Data PIN              - D5
+  D6 [PD6]            - Data PIN              - D6
+  D7 [PD7]            - Data PIN              - D7
+
+  D8 [PB0]            - Horizontal Reference  - HREF
   */
-  DDRC &= ~15;//low d0-d3 camera
-  DDRD &= ~252;//d7-d4 and interrupt pins
+  /*
+  Set pins to Input and High-Z
+  */
+  // Set A0~A3
+  DDRC  &= ~(0b00001111);
+  PORTC &= ~(0b00001111);
+
+  // Set D2~D7
+  DDRD  &= ~(0b11111100);
+  PORTD &= ~(0b11111100);
+
+  // Set D8
+  DDRB  &= ~(0b00000001);
+  PORTB &= ~(0b00000001);
+  /************************SET GPIO*********************************/
+
+
 
   //set up twi for 100khz
-  TWSR &= ~3;//disable prescaler for TWI
-  TWBR = 72;//set to 100khz
+  TWSR &= ~3;   //disable prescaler for TWI
+  TWBR = 72;    //set to 100khz
 
   //* Setup USART Interface *//
   /* Set Baudrate for TX & RX*/                         // (p. 183)
@@ -1950,10 +1984,11 @@ void ATMega328p_init(void)
   /* Enable Transmitter and Receiver */
   UCSR0B  =  (1 << RXEN0) |(1 << TXEN0);                  // (p. 183)
   /* Set USART to normal speed operation */
-  UCSR0A &= ~(0 << U2X0);
+  UCSR0A &= ~(1 << U2X0);
   /* Set up frame size for TX & RX to 8-bit*/
   UCSR0C  =  (1<< UCSZ01) | (1<< UCSZ00);                 // (p. 198)
 
+  // Enable Interrup Service Routines
   sei();
 }
 
