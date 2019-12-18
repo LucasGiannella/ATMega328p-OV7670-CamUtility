@@ -469,7 +469,8 @@ void OV7670_set_register(uint8_t reg, uint8_t val, uint8_t loc)
 /* Reset All OV7670 Registers to their Default Values */
 void OV7670_set_default()
 {
-  OV7670_set_register(COM7, (1 << SCCBRES));
+  //OV7670_set_register(COM7, (1 << SCCBRES));
+  OV7670_set_register(COM7, 0b10000000);
 }
 
 /*  */
@@ -597,15 +598,13 @@ void OV7670_init(void)
   //twi_write_register(COM7, 1, CSPCSEL0, OV7670_WRITE, OV7670_READ);
   //twi_write_register(COM7, 1, CSPCSEL1, OV7670_WRITE, OV7670_READ);
 
-
   //twi_get_register_map(OUTPUT_FORMAT_MAP);
   /* Select Output Format */
   //OV7670_set_outformat(OUT_FORMAT_PROC_BAYER_RGB);
 }
 
-/* OV7670 FUNCTIONS         */////////////////////////////////////////////////////////////////////////////////////
+/* OV7670 FUNCTIONS */
 
-/////////////////////// UNO /////////////////////////////
 /* Blink Error LED for ATMega328p */
 void error_led(void)
 {
@@ -813,7 +812,7 @@ static void captureImgUno(uint16_t width, uint16_t height)
       while (!D2);                                      // Wait PCLK high
     }
   }
-  UDR0 = 0x10;                                          // Send LF a.k.a. \n via serial 
+  UDR0 = 0x10;                                          // Send LF a.k.a. \n via serial
   while (!(UCSR0A & (1 << UDRE0)));                     // Wait USART0/ UDRO register to clear [UDER0]
 }
 
@@ -848,7 +847,7 @@ static void captureImgUnoRGB(uint16_t width, uint16_t height)
       while (!D2);                                      // Wait PCLK high
     }
   }
-  UDR0 = '\n';
+  UDR0 = 0x10;                                      // Send LF a.k.a. \n via serial
   while (!(UCSR0A & (1 << UDRE0)));                 // Wait USART0/ UDRO register to clear [UDER0]
 }
 
