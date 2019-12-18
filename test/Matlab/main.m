@@ -1,8 +1,8 @@
 clear all; close all; clc;
 
 %%
-WIDTH = 240;
-HEIGHT = 320;
+WIDTH = 320;
+HEIGHT = 240;
 
 %%
 % fileID = fopen('img_data.bin');
@@ -13,7 +13,7 @@ if ~isempty(instrfind)
     delete(instrfind);
 end
 
-s = serial("/dev/ttyACM0", 'BaudRate', 1000000, 'Timeout', 10, 'Terminator', 'LF');
+s = serial("COM3", 'BaudRate', 1000000, 'Timeout', 10, 'Terminator', 'LF');
 s.InputBufferSize = 76806;
 fopen(s);
 disp('Waiting for Data:')
@@ -72,7 +72,29 @@ end
 
 %%
 im = (RGB(:,:,1) + RGB(:,:,2) + RGB(:,:,3));
+GIM  = cast(im,'uint8');
+Shot = imread('shot.bmp');
 
-imshow(im/256)
-  
+figure;
+subplot(2,2,1), imshow(im)
+subplot(2,2,2), imshow(GIM)
+subplot(2,2,3), imshow(img_r)
+subplot(2,2,4), imshow(Shot)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
