@@ -1,0 +1,12 @@
+D:\5 Kerja\BJT JOSS\170412 STTAL\Pak Teguh\Kamera\Intructable\ReadSerialPort\ReadSerialPort\ReadSerialPortWin\bin\Debug\ReadSerialPortWin.exe.config
+D:\5 Kerja\BJT JOSS\170412 STTAL\Pak Teguh\Kamera\Intructable\ReadSerialPort\ReadSerialPort\ReadSerialPortWin\obj\Debug\ReadSerialPortWin.csprojResolveAssemblyReference.cache
+D:\5 Kerja\BJT JOSS\170412 STTAL\Pak Teguh\Kamera\Intructable\ReadSerialPort\ReadSerialPort\ReadSerialPortWin\obj\Debug\ReadSerialPortWin.frmPrinc.resources
+D:\5 Kerja\BJT JOSS\170412 STTAL\Pak Teguh\Kamera\Intructable\ReadSerialPort\ReadSerialPort\ReadSerialPortWin\obj\Debug\ReadSerialPortWin.Properties.Resources.resources
+D:\5 Kerja\BJT JOSS\170412 STTAL\Pak Teguh\Kamera\Intructable\ReadSerialPort\ReadSerialPort\ReadSerialPortWin\obj\Debug\ReadSerialPortWin.csproj.GenerateResource.Cache
+D:\5 Kerja\BJT JOSS\170412 STTAL\Pak Teguh\Kamera\Intructable\ReadSerialPort\ReadSerialPort\ReadSerialPortWin\bin\Debug\ReadSerialPortWin.exe
+D:\5 Kerja\BJT JOSS\170412 STTAL\Pak Teguh\Kamera\Intructable\ReadSerialPort\ReadSerialPort\ReadSerialPortWin\bin\Debug\ReadSerialPortWin.pdb
+D:\5 Kerja\BJT JOSS\170412 STTAL\Pak Teguh\Kamera\Intructable\ReadSerialPort\ReadSerialPort\ReadSerialPortWin\obj\Debug\ReadSerialPortWin.exe
+D:\5 Kerja\BJT JOSS\170412 STTAL\Pak Teguh\Kamera\Intructable\ReadSerialPort\ReadSerialPort\ReadSerialPortWin\obj\Debug\ReadSerialPortWin.pdb
+D:\5 Kerja\BJT JOSS\170412 STTAL\Pak Teguh\KAMERA HASIL\Hitam Putih\ReadSerialPort\ReadSerialPortWin\bin\Debug\ReadSerialPortWin.exe.config
+D:\5 Kerja\BJT JOSS\170412 STTAL\Pak Teguh\KAMERA HASIL\Hitam Putih\ReadSerialPort\ReadSerialPortWin\obj\Debug\ReadSerialPortWin.exe
+D:\5 Kerja\BJT JOSS\170412 STTAL\Pak Teguh\KAMERA HASIL\Hitam Putih\ReadSerialPort\ReadSerialPortWin\obj\Debug\ReadSerialPortWin.pdb
