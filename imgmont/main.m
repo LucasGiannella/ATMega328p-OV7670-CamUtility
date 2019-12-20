@@ -19,7 +19,7 @@ fopen(s);
 disp('Waiting for Data:')
 data = fscanf(s);
 disp('Sucssesfull')
-fclose(s)
+fclose(s);
 
 A = unicode2native(data, 'US-ASCII');
 
@@ -83,16 +83,16 @@ subplot(2,2,4), imshow(Shot)
 
 
 
-%%
-im2=dlmread('im.txt',im);
-GIM2=dlmread('GIM.txt',GIM);
-img_r2=dlmread('img_r.txt',img_r);
-
-figure;
-subplot(2,2,1), imshow(im)
-subplot(2,2,2), imshow(GIM)
-subplot(2,2,3), imshow(img_r)
-subplot(2,2,4), imshow(Shot)
+%% Above methods VS Russian Shot
+% im2=dlmread('im.txt');
+% GIM2=dlmread('GIM.txt');
+% img_r2=dlmread('img_r.txt');
+% 
+% figure;
+% subplot(2,2,1), imshow(im2)
+% subplot(2,2,2), imshow(GIM2)
+% subplot(2,2,3), imshow(img_r2)
+% subplot(2,2,4), imshow(Shot)
 
 
 
