@@ -13,15 +13,19 @@ if ~isempty(instrfind)
     delete(instrfind);
 end
 
+%chenged fscanf which return a char type to fread which returns a 8bit data (a byte) 
+
 s = serial("COM3", 'BaudRate', 1000000, 'Timeout', 10, 'Terminator', 'LF');
 s.InputBufferSize = 76806;
 fopen(s);
 disp('Waiting for Data:')
-data = fscanf(s);
+%data = fscanf(s); %original
+data = fread(s);   %fread test
 disp('Sucssesfull')
-fclose(s)
+fclose(s);
 
-A = unicode2native(data, 'US-ASCII');
+%A = unicode2native(data, 'US-ASCII'); %original
+A = data; %fread test
 
 %%
 img = A(6:end-1);
@@ -73,14 +77,24 @@ end
 %%
 im = (RGB(:,:,1) + RGB(:,:,2) + RGB(:,:,3));
 GIM  = cast(im,'uint8');
-Shot = imread('shot.bmp');
+Shot = imread('shoo.bmp');
 
 figure;
-subplot(2,2,1), imshow(im)
-subplot(2,2,2), imshow(GIM)
-subplot(2,2,3), imshow(img_r)
-subplot(2,2,4), imshow(Shot)
+subplot(2,2,1), imshow(img_r/255),  title('RAW')
+subplot(2,2,2), imshow(im/255), title('Pos RGB')
+subplot(2,2,3), imshow(GIM),    title('Pos RGB 8unit')
+subplot(2,2,4), imshow(Shot),   title('RUS')
 
+%some mystical reason the images are upside down, so...
+im = flipud(im);
+img_r = flipud(img_r);
+GIM = flipud(GIM);
+
+figure;
+subplot(2,2,1), imshow(img_r/255),  title('RAW')
+subplot(2,2,2), imshow(im/255), title('Pos RGB')
+subplot(2,2,3), imshow(GIM),    title('Pos RGB 8unit')
+subplot(2,2,4), imshow(Shot),   title('RUS')
 
 
 %% Above methods VS Russian Shot
