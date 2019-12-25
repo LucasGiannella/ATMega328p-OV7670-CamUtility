@@ -611,7 +611,7 @@ static void captureImg(uint16_t wg, uint16_t hg){
     }
     //  while ((PIND & 256));//wait for low
   }
-    //_delay_ms(100);
+  UDR0 = 0x10;
 }
 
 void setup(){

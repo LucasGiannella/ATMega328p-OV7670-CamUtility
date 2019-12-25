@@ -13,32 +13,30 @@ if ~isempty(instrfind)
     delete(instrfind);
 end
 
-%chenged fscanf which return a char ty
+% changed fscanf which return a char type to fread which returns a 8bit data (a byte) 
+% this is marked as not recommended, but ... it worked
 
-s = serial("COM3", 'BaudRate', 1000000, 'Timeout', 10, 'Terminator', 'LF');
+s = serialport("COM3", 'BaudRate', 1000000, 'Timeout', 30, 'UserData', 'uint8');
 s.InputBufferSize = 76806;
 fopen(s);
 disp('Waiting for Data:')
-%data = fscanf(s); %original
-data = fread(s);   %fread test
+data = fread(s);
+%data = fread(s);
 disp('Sucssesfull')
 fclose(s);
 
-%A = unicode2native(data, 'US-ASCII'); %original
-A = data; %fread test
-
 %%
-img = A(6:end-1);
+img = data(6:end-1);
 img_r = reshape(img, [WIDTH,HEIGHT]);
+
+
 
 %%
 % YUV 422
-% 
+
 % U Y V Y 
 
 % V Y U Y
-
-
 
 mode=0;
 
@@ -70,20 +68,20 @@ for row = 1:WIDTH
              U(row, col)
              V(row, col)];
       RGB(row,col,:) = CONVERTER * double(YUV);
-      %O(row, col, :) = uint8(YUV);
     end
 end
 
 %%
+
 im = (RGB(:,:,1) + RGB(:,:,2) + RGB(:,:,3));
 GIM  = cast(im,'uint8');
-Shot = imread('shoo.bmp');
+Shot = imread('shoot.bmp');
 
-figure;
-subplot(2,2,1), imshow(img_r/255),  title('RAW')
-subplot(2,2,2), imshow(im/255), title('Pos RGB')
-subplot(2,2,3), imshow(GIM),    title('Pos RGB 8unit')
-subplot(2,2,4), imshow(Shot),   title('RUS')
+% figure;
+% subplot(2,2,1), imshow(img_r/255),  title('RAW')
+% subplot(2,2,2), imshow(im/255), title('Pos RGB')
+% subplot(2,2,3), imshow(GIM),    title('Pos RGB 8unit')
+% subplot(2,2,4), imshow(Shot),   title('RUS')
 
 %some mystical reason the images are upside down, so...
 im = flipud(im);
@@ -95,26 +93,6 @@ subplot(2,2,1), imshow(img_r/255),  title('RAW')
 subplot(2,2,2), imshow(im/255), title('Pos RGB')
 subplot(2,2,3), imshow(GIM),    title('Pos RGB 8unit')
 subplot(2,2,4), imshow(Shot),   title('RUS')
-
-
-%% Above methods VS Russian Shot
-% im2=dlmread('im.txt',im);
-% GIM2=dlmread('GIM.txt',GIM);
-% img_r2=dlmread('img_r.txt',img_r);
-% 
-% figure;
-% subplot(2,2,1), imshow(im2)
-% subplot(2,2,2), imshow(GIM2)
-% subplot(2,2,3), imshow(img_r2)
-% subplot(2,2,4), imshow(Shot)
-
-
-
-
-
-
-
-
 
 
 
