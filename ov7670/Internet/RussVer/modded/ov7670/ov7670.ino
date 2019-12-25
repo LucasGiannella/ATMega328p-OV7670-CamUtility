@@ -291,22 +291,13 @@ const struct regval_list qvga_ov7670[] PROGMEM = {
   { REG_COM14, 0x19 },
   { 0x72, 0x11 },
   { 0x73, 0xf1 },
-
   { REG_HSTART, 0x16 },
   { REG_HSTOP, 0x04 },
   { REG_HREF, 0xa4 },
   { REG_VSTART, 0x02 },
   { REG_VSTOP, 0x7a },
   { REG_VREF, 0x0a },
-
-
-/*  { REG_HSTART, 0x16 },
-  { REG_HSTOP, 0x04 },
-  { REG_HREF, 0x24 },
-  { REG_VSTART, 0x02 },
-  { REG_VSTOP, 0x7a },
-  { REG_VREF, 0x0a },*/
-  { 0xff, 0xff }, /* END MARKER */
+  { 0xff, 0xff },
 };
 
 const struct regval_list yuv422_ov7670[] PROGMEM = {
@@ -452,7 +443,8 @@ const struct regval_list ov7670_default_regs[] PROGMEM = {//from the linux drive
 
 void error_led(void){
   DDRB |= 32;//make sure led is output
-  while (1){//wait for reset
+  while (1)
+  {
     PORTB ^= 32;// toggle led
     _delay_ms(100);
   }
@@ -556,7 +548,7 @@ void camInit(void){
 void arduinoUnoInut(void) {
   cli();//disable interrupts
   
-    /* Setup the 8mhz PWM clock
+  /* Setup the 8mhz PWM clock
   * This will be on pin 11*/
   DDRB |= (1 << 3);//pin 11
   ASSR &= ~(_BV(EXCLK) | _BV(AS2));
@@ -565,15 +557,14 @@ void arduinoUnoInut(void) {
   OCR2A = 0;//(F_CPU)/(2*(X+1))
   DDRC &= ~15;//low d0-d3 camera
   DDRD &= ~252;//d7-d4 and interrupt pins
-  //_delay_ms(3000);
   
-    //set up twi for 100khz
+  //set up twi for 100khz
   TWSR &= ~3;//disable prescaler for TWI
   TWBR = 72;//set to 100khz
   
-    //enable serial
+  //enable serial
   UBRR0H = 0;
-  UBRR0L = 1;//0 = 2M baud rate. 1 = 1M baud. 3 = 0.5M. 7 = 250k 207 is 9600 baud rate.
+  UBRR0L = 0;//0 = 2M baud rate. 1 = 1M baud. 3 = 0.5M. 7 = 250k 207 is 9600 baud rate.
   UCSR0A |= 2;//double speed aysnc
   UCSR0B = (1 << RXEN0) | (1 << TXEN0);//Enable receiver and transmitter
   UCSR0C = 6;//async 1 stop bit 8bit char no parity bits
@@ -596,11 +587,12 @@ static void captureImg(uint16_t wg, uint16_t hg){
   while (!(PIND & 8));//wait for high
   while ((PIND & 8));//wait for low
 
-    y = hg;
-  while (y--){
-        x = wg;
-      //while (!(PIND & 256));//wait for high
-    while (x--){
+  y = hg;
+  while (y--)
+  {
+    x = wg;
+    while (x--)
+    {
       while ((PIND & 4));//wait for low
           UDR0 = (PINC & 15) | (PIND & 240);
           while (!(UCSR0A & (1 << UDRE0)));//wait for byte to transmit
@@ -609,7 +601,6 @@ static void captureImg(uint16_t wg, uint16_t hg){
       while ((PIND & 4));//wait for low
       while (!(PIND & 4));//wait for high
     }
-    //  while ((PIND & 256));//wait for low
   }
   UDR0 = 0x10;
 }

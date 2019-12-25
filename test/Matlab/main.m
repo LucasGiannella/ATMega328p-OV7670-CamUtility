@@ -13,7 +13,7 @@ s = serial("COM3", 'BaudRate', 1000000, 'Timeout', 10, 'Terminator', 'LF');
 s.InputBufferSize = 76806;
 fopen(s);
 disp('Waiting for Data:')
-data = fread(s,76806,'uint8');
+data = fread(s);
 disp('Sucssesfull')
 fclose(s);
 
@@ -75,7 +75,7 @@ Shot = imread('shoot.bmp');
 % subplot(2,2,3), imshow(GIM),    title('Pos RGB 8unit')
 % subplot(2,2,4), imshow(Shot),   title('RUS')
 
-%some mystical reason the images are upside down, so...
+%for some mystical reason the images are upside down, so...
 im = flipud(im);
 img_r = flipud(img_r);
 GIM = flipud(GIM);

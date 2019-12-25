@@ -5,23 +5,15 @@ WIDTH = 320;
 HEIGHT = 240;
 
 %%
-% fileID = fopen('img_data.bin');
-% A = fread(fileID, [76806,1], 'uint8');
-
-if ~isempty(instrfind)
-    fclose(instrfind);
-    delete(instrfind);
-end
 
 % changed fscanf which return a char type to fread which returns a 8bit data (a byte) 
 % this is marked as not recommended, but ... it worked
 
-s = serialport("COM3", 'BaudRate', 1000000, 'Timeout', 30, 'UserData', 'uint8');
+s = serial("COM3", 'BaudRate', 1000000, 'Timeout', 10, 'Terminator', 'LF');
 s.InputBufferSize = 76806;
 fopen(s);
 disp('Waiting for Data:')
 data = fread(s);
-%data = fread(s);
 disp('Sucssesfull')
 fclose(s);
 
@@ -83,7 +75,7 @@ Shot = imread('shoot.bmp');
 % subplot(2,2,3), imshow(GIM),    title('Pos RGB 8unit')
 % subplot(2,2,4), imshow(Shot),   title('RUS')
 
-%some mystical reason the images are upside down, so...
+%for some mystical reason the images are upside down, so...
 im = flipud(im);
 img_r = flipud(img_r);
 GIM = flipud(GIM);

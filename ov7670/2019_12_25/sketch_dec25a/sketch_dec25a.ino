@@ -964,16 +964,14 @@ void setup()
   //setRes();                                 // Set Camera Resolution
   //setColor(0);                              // Set Camera ColorSpace
   //twi_set_register(0x11, 16, OV7670_WRITE); // Set Horizontal Sincronization
-
+  pinMode(13, INPUT_PULLUP);
 }
 
 
 void loop()
 {
-  /*
   if(digitalRead(13) == 0)
   {
-   captureImg(240,320);// Capture & Send Image via Serial
+   captureImgUno(240,320);// Capture & Send Image via Serial
   }
-  */
 }
