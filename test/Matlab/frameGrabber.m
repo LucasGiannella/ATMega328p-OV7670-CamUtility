@@ -9,7 +9,7 @@ HEIGHT = 240;
 
 %% Serial Port Communication
 
-s = serial("COM3", 'BaudRate', 1000000, 'Timeout', 10, 'Terminator', 'LF'); % setting port and port parameters (see function reference)
+s = serial("COM3", 'BaudRate', 2000000, 'Timeout', 30, 'Terminator', 'LF'); % setting port and port parameters (see function reference)
 s.InputBufferSize = 76806;                                                  % Number o bytes read from serial -> *RDY* Img \n -> 5 bytes 76800 bytes 1 byte
 fopen(s);                                                                   % Opening serial port
 disp('Waiting for Data:')                                                   % Console warning to be removed
