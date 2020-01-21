@@ -610,16 +610,15 @@ void setup(){
   camInit();
   setRes();
   setColor(0);
-  wrReg(0x11,16); //Earlier it had the value: wrReg(0x11, 12); New version works better for me :) !!!!
+  wrReg(0x11,16);
   pinMode(13, INPUT_PULLUP);
   
-  _delay_ms(12000);
-
-  captureImg(240,320);
+  _delay_ms(1000);
 }
 
 
 void loop()
 {
-   
+    captureImg(240,320);
+    _delay_ms(1000);
 }

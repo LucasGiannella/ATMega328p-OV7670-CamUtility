@@ -14,7 +14,7 @@ s.InputBufferSize = 76806;                                                  % Nu
 fopen(s);                                                                   % Opening serial port
 disp('Waiting for Data:')                                                   % Console warning to be removed
 tic;
-data = fread(s);                                                            % Reading data as a byte stream serial.read() DOESN'T work for this
+data = fread(s);                                                            % Reading data as a byte stream, serial.read() DOESN'T work for this
 disp('Sucssesfull')                                                         % Data read confirmation to be removed
 fclose(s);                                                                  % Closing serial port
 

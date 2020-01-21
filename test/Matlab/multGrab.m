@@ -32,4 +32,7 @@ subplot(1,6,4), imshow(img_f(:,:,4)/255), title('4th Shot')
 subplot(1,6,5), imshow(img_f(:,:,5)/255), title('5th Shot')
 subplot(1,6,6), imshow(img_f(:,:,6)/255), title('6th Shot')
 
+figure;
+imshow(img_f(:,:,6)/255), title('Stable Shot')
+
 fclose(s); 

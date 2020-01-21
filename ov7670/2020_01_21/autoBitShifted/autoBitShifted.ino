@@ -1,9 +1,3 @@
-//
-// Source code for application to transmit image from ov7670 to PC via USB
-// By Siarhei Charkes in 2015
-// http://privateblog.info 
-//
-
 #include <stdint.h>
 #include <avr/io.h>
 #include <util/twi.h>
@@ -581,6 +575,7 @@ void StringPgm(const char * str){
 
 static void captureImg(uint16_t wg, uint16_t hg){
   uint16_t y, x;
+  byte pixel = 0b00000000;
 
   StringPgm(PSTR("*RDY*"));
 
@@ -593,9 +588,22 @@ static void captureImg(uint16_t wg, uint16_t hg){
     x = wg;
     while (x--)
     {
+      pixel = 0b00000000;
+      
       while ((PIND & 4));//wait for low
-          UDR0 = (PINC & 15) | (PIND & 240);
-          while (!(UCSR0A & (1 << UDRE0)));//wait for byte to transmit
+      
+      pixel |= ( (PINC & 0b00000001) << 0);
+      pixel |= ( (PIND & 0b10000000) << 1);
+      pixel |= ( (PINC & 0b00000010) << 2);
+      pixel |= ( (PIND & 0b01000000) << 3);
+      pixel |= ( (PINC & 0b00000100) << 4);
+      pixel |= ( (PIND & 0b00100000) << 5);
+      pixel |= ( (PINC & 0b00001000) << 6);
+      pixel |= ( (PIND & 0b00010000) << 7);
+     
+      UDR0 = pixel;
+      
+      while (!(UCSR0A & (1 << UDRE0)));//wait for byte to transmit
       while (!(PIND & 4));//wait for high
       
       while ((PIND & 4));//wait for low
@@ -610,16 +618,15 @@ void setup(){
   camInit();
   setRes();
   setColor(0);
-  wrReg(0x11,16); //Earlier it had the value: wrReg(0x11, 12); New version works better for me :) !!!!
+  wrReg(0x11,16);
   pinMode(13, INPUT_PULLUP);
   
-  _delay_ms(12000);
-
-  captureImg(240,320);
+  _delay_ms(1000);
 }
 
 
 void loop()
 {
-   
+    captureImg(240,320);
+    _delay_ms(1000);
 }
