@@ -9,9 +9,13 @@ if ~isempty(instrfind)
     fclose(instrfind);
     delete(instrfind);
 end
-prompt = 'Select COM Port: ';
-port = input(prompt,'s');
-s = serial(port, 'BaudRate', 2000000, 'Timeout', 30, 'Terminator', 'LF'); 
+
+% prompt = 'Select COM Port: ';
+% port = input(prompt,'s');
+% s = serial(port, 'BaudRate', 2000000, 'Timeout', 30, 'Terminator', 'LF');
+
+s = serial('COM3', 'BaudRate', 2000000, 'Timeout', 30, 'Terminator', 'LF');
+
 s.InputBufferSize = 76806;                                                 
 fopen(s);                                                                   
 
